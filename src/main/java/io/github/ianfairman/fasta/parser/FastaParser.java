@@ -1,4 +1,4 @@
-package com.github.ianfairman.fasta.parser;
+package io.github.ianfairman.fasta.parser;
 
 import java.io.StringReader;
 import java.util.ArrayList;

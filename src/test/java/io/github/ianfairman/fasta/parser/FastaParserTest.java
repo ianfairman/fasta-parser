@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ianfairman.fasta.parser;
+package io.github.ianfairman.fasta.parser;
 
 import java.io.StringReader;
 import java.util.Collections;

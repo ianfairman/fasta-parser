@@ -1,4 +1,4 @@
-module com.github.ianfairman.fasta.parser {
+module io.github.ianfairman.fasta.parser {
     requires javafx.controls;
-    exports com.github.ianfairman.fasta.parser;
+    exports io.github.ianfairman.fasta.parser;
 }
