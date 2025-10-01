@@ -19,12 +19,16 @@ import java.io.StringReader;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  *
  * @author hp
  */
 public class FastaParserTest {
+
+    public FastaParserTest() {
+    }
     
     @Test
     void emptyReaderParsedIntoZeroRecords() {
@@ -35,5 +39,19 @@ public class FastaParserTest {
         var result = parser.parse(reader);
         // Then
         assertEquals(Collections.emptyList(), result);     
+    }
+    
+    @Test
+    void nullReaderCausesThrowOfNullException() {
+        // Given
+        var parser = new FastaParser();
+        StringReader reader = null;
+        // When
+        try {
+            parser.parse(reader);
+        } catch (NullPointerException _) {
+            return;
+        }
+        fail();
     }
 }

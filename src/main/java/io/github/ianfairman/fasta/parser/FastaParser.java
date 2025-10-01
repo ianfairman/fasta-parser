@@ -3,6 +3,7 @@ package io.github.ianfairman.fasta.parser;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.Objects.requireNonNull;
 
 /**
  *
@@ -10,7 +11,11 @@ import java.util.List;
  */
 public class FastaParser {
 
+    public FastaParser() {
+    }
+
     public List<FastaRecord> parse(StringReader reader) {
+        requireNonNull(reader);
         return new ArrayList<FastaRecord>();
     }
     
