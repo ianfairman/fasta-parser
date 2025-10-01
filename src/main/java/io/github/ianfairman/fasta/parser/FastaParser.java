@@ -28,6 +28,10 @@ public class FastaParser {
                 return emptyList();
             }
             var line2 = bufferedReader.readLine();
+            var line3 = bufferedReader.readLine();
+            if (line3 != null) {
+                line2 += line3;
+            }
             return List.of(new FastaRecord(line.substring(2) , line2));
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
