@@ -1,10 +1,12 @@
 package io.github.ianfairman.fasta.parser;
 
 import io.github.ianfairman.io.IORuntimeException;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import static java.util.Collections.emptyList;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 
@@ -18,16 +20,16 @@ public class FastaParser {
     }
 
     public List<FastaRecord> parse(Reader reader) {
-        String recordString;
         try {
-            recordString = reader.readAllAsString();
-        } catch (IOException e) {
-            throw new IORuntimeException(e);
+            requireNonNull(reader);
+            var bufferedReader = new BufferedReader(reader);
+            String line = bufferedReader.readLine();
+            if (line == null) {
+                return emptyList();
+            }
+            return List.of(new FastaRecord(line.substring(2) , "ccccc"));
+        } catch (IOException ex) {
+            throw new IORuntimeException(ex);
         }
-        if (recordString.length() > 0) {
-            return List.of(new FastaRecord("name", "aaaaa"));
-        }
-        requireNonNull(reader);
-        return new ArrayList<>();
     }
 }

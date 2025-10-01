@@ -80,4 +80,17 @@ public class FastaParserTest {
         // Then
         assertEquals("name", result.getFirst().description());     
     }
+    
+    @Test
+    void readInOneRecordWithName2() {
+        // Given
+        var parser = new FastaParser();
+        var reader = new StringReader("""
+                                      > nom
+                                      AGCT""");
+        // When
+        var result = parser.parse(reader);
+        // Then
+        assertEquals("nom", result.getFirst().description());     
+    }
 }
