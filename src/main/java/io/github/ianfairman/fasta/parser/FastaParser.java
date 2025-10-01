@@ -23,11 +23,12 @@ public class FastaParser {
         try {
             requireNonNull(reader);
             var bufferedReader = new BufferedReader(reader);
-            String line = bufferedReader.readLine();
+            var line = bufferedReader.readLine();
             if (line == null) {
                 return emptyList();
             }
-            return List.of(new FastaRecord(line.substring(2) , "AGCT"));
+            var line2 = bufferedReader.readLine();
+            return List.of(new FastaRecord(line.substring(2) , line2));
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }
