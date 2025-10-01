@@ -1,5 +1,6 @@
 package io.github.ianfairman.fasta.parser;
 
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,8 @@ public class FastaParser {
     public FastaParser() {
     }
 
-    public List<FastaRecord> parse(StringReader reader) {
+    public List<FastaRecord> parse(Reader reader) {
         requireNonNull(reader);
-        return new ArrayList<FastaRecord>();
+        return new ArrayList<>();
     }
-    
 }
