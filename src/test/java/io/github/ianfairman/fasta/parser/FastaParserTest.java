@@ -54,4 +54,17 @@ public class FastaParserTest {
         }
         fail();
     }
+    
+    @Test
+    void readInOneRecord() {
+        // Given
+        var parser = new FastaParser();
+        var reader = new StringReader("""
+                                      > name
+                                      AGCT""");
+        // When
+        var result = parser.parse(reader);
+        // Then
+        assertEquals(1, result.size());     
+    }
 }
