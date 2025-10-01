@@ -25,7 +25,7 @@ public class FastaParser {
             throw new IORuntimeException(e);
         }
         if (recordString.length() > 0) {
-            return List.of(new FastaRecord("> blah", "aaaaa"));
+            return List.of(new FastaRecord("name", "aaaaa"));
         }
         requireNonNull(reader);
         return new ArrayList<>();
