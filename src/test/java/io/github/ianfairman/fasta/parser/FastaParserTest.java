@@ -93,4 +93,17 @@ public class FastaParserTest {
         // Then
         assertEquals("nom", result.getFirst().description());     
     }
+    
+    @Test
+    void readInOneRecordWithSequence() {
+        // Given
+        var parser = new FastaParser();
+        var reader = new StringReader("""
+                                      > nom
+                                      AGCT""");
+        // When
+        var result = parser.parse(reader);
+        // Then
+        assertEquals("AGCT", result.getFirst().sequence());     
+    }
 }

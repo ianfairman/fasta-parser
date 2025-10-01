@@ -27,7 +27,7 @@ public class FastaParser {
             if (line == null) {
                 return emptyList();
             }
-            return List.of(new FastaRecord(line.substring(2) , "ccccc"));
+            return List.of(new FastaRecord(line.substring(2) , "AGCT"));
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }
