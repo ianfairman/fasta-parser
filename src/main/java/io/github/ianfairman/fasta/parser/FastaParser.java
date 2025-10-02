@@ -36,16 +36,17 @@ public class FastaParser {
         try {
             requireNonNull(reader);
             var bufferedReader = new BufferedReader(reader);
-            var line = bufferedReader.readLine();
-            if (line == null) {
+            var description = bufferedReader.readLine();
+            if (description == null) {
                 return emptyList();
             }
-            var line2 = bufferedReader.readLine();
-            var line3 = bufferedReader.readLine();
-            if (line3 != null) {
-                line2 += line3;
+            var sequence = "";
+            var line = bufferedReader.readLine();
+            while (line != null) {
+                sequence += line;
+                line = bufferedReader.readLine();
             }
-            return List.of(new FastaRecord(line.substring(2) , line2));
+            return List.of(new FastaRecord(description.substring(2), sequence));
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }

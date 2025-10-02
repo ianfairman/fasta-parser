@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  *
- * @author hp
+ * @author Ian Fairman <ian.fairman@gmail.com>
  */
 public class FastaParserTest {
 
@@ -132,5 +132,21 @@ public class FastaParserTest {
         var result = parser.parse(reader);
         // Then
         assertEquals("AGTCGGGG", result.getFirst().sequence());     
+    }
+    
+    @Test
+    void readInOneRecordWithFourLineSequence() {
+                // Given
+        var parser = new FastaParser();
+        var reader = new StringReader("""
+                                      > nom
+                                      AGTC
+                                      GGGG
+                                      CCCC
+                                      TTTT""");
+        // When
+        var result = parser.parse(reader);
+        // Then
+        assertEquals("AGTCGGGGCCCCTTTT", result.getFirst().sequence());     
     }
 }
