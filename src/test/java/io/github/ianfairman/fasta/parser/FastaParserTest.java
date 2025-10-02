@@ -149,4 +149,18 @@ public class FastaParserTest {
         // Then
         assertEquals("AGTCGGGGCCCCTTTT", result.getFirst().sequence());     
     }
+    
+    @Test
+    void readInOneRecordWithNoSpaceAfterGreaterThan() {
+        // Given
+        var parser = new FastaParser();
+        var reader = new StringReader("""
+                                      >nom
+                                      AGTC
+                                      """);
+        // When
+        var result = parser.parse(reader);
+        // Then
+        assertEquals("nom", result.getFirst().description());     
+    }
 }

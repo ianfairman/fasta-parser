@@ -46,7 +46,7 @@ public class FastaParser {
                 sequence += line;
                 line = bufferedReader.readLine();
             }
-            return List.of(new FastaRecord(description.substring(2), sequence));
+            return List.of(new FastaRecord(description.substring(1).trim(), sequence));
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }
