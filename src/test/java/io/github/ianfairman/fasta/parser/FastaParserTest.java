@@ -163,4 +163,22 @@ public class FastaParserTest {
         // Then
         assertEquals("nom", result.getFirst().description());     
     }
+    
+    @Test
+    void readInThreeRecords() {
+        // Given
+        var parser = new FastaParser();
+        var reader = new StringReader("""
+                                      >nom
+                                      AGTC
+                                      > nom2
+                                      TTTT
+                                      GGGG
+                                      >nom3
+                                      GATTACA""");
+        // When
+        var result = parser.parse(reader);
+        // Then
+        assertEquals("nom2", result.get(1).description());     
+    }
 }
