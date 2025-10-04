@@ -32,21 +32,40 @@ public class FastaParser {
     public FastaParser() {
     }
 
+    private class FastaRecordBuilder {
+
+        private final String description;
+        private String sequence;
+        
+        public FastaRecordBuilder(String description) {
+            this.description = description.substring(1).trim();
+            this.sequence = "";
+        }
+        
+        public void addSubSequence(String subSequence) {
+            sequence += subSequence;
+        }
+        
+        public FastaRecord build() {
+            return new FastaRecord(description, sequence);
+        }
+    }
+    
     public List<FastaRecord> parse(Reader reader) {
-        try {
-            requireNonNull(reader);
-            var bufferedReader = new BufferedReader(reader);
-            var description = bufferedReader.readLine();
-            if (description == null) {
+        requireNonNull(reader);
+        try (var bufferedReader = new BufferedReader(reader)) {
+            
+            var line = bufferedReader.readLine();
+            if (line == null) {
                 return emptyList();
             }
-            var sequence = "";
-            var line = bufferedReader.readLine();
+            var builder = new FastaRecordBuilder(line);
+            line = bufferedReader.readLine();
             while (line != null) {
-                sequence += line;
+                builder.addSubSequence(line);
                 line = bufferedReader.readLine();
             }
-            return List.of(new FastaRecord(description.substring(1).trim(), sequence));
+            return List.of(builder.build());
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }
