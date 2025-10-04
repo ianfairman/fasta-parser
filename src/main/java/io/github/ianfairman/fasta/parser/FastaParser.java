@@ -35,19 +35,19 @@ public class FastaParser {
     private class FastaRecordBuilder {
 
         private final String description;
-        private String sequence;
+        private final StringBuilder sequenceBuilder;
         
         public FastaRecordBuilder(String description) {
             this.description = description.substring(1).trim();
-            this.sequence = "";
+            this.sequenceBuilder = new StringBuilder();
         }
         
         public void addSubSequence(String subSequence) {
-            sequence += subSequence;
+            sequenceBuilder.append(subSequence);
         }
         
         public FastaRecord build() {
-            return new FastaRecord(description, sequence);
+            return new FastaRecord(description, sequenceBuilder.toString());
         }
     }
     
