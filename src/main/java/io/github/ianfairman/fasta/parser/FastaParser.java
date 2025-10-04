@@ -19,7 +19,7 @@ import io.github.ianfairman.io.IORuntimeException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
+import static java.util.Collections.emptyList;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 
@@ -33,50 +33,22 @@ public class FastaParser {
     }
 
     public List<FastaRecord> parse(Reader reader) {
-        requireNonNull(reader, "Reader cannot be null");
-
-        var records = new ArrayList<FastaRecord>();
-        String description = null;
-        StringBuilder sequenceBuilder = new StringBuilder();
-
-        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                if (isDescription(line)) {
-                    // When a new description line is found, add the previous record
-                    if (description != null) {
-                        records.add(new FastaRecord(description, sequenceBuilder.toString()));
-                    }
-                    // Start the new record
-                    description = extractDescription(line);
-                    sequenceBuilder.setLength(0); // Clear the builder for the new sequence
-                } else {
-                    if (containsText(line)) {
-                        sequenceBuilder.append(line.trim());
-                    }
-                }
+        try {
+            requireNonNull(reader);
+            var bufferedReader = new BufferedReader(reader);
+            var description = bufferedReader.readLine();
+            if (description == null) {
+                return emptyList();
             }
-            
-            if (description != null) {
-                records.add(new FastaRecord(description, sequenceBuilder.toString()));
+            var sequence = "";
+            var line = bufferedReader.readLine();
+            while (line != null) {
+                sequence += line;
+                line = bufferedReader.readLine();
             }
-            
+            return List.of(new FastaRecord(description.substring(1).trim(), sequence));
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }
-        
-        return records;
-    }
-
-    private static String extractDescription(String line) {
-        return line.substring(1).trim();
-    }
-
-    private static boolean isDescription(String line) {
-        return line.startsWith(">");
-    }
-
-    private static boolean containsText(String line) {
-        return !line.trim().isEmpty();
     }
 }
