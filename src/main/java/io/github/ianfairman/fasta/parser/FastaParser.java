@@ -19,7 +19,7 @@ import io.github.ianfairman.io.IORuntimeException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import static java.util.Collections.emptyList;
+import java.util.ArrayList;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 
@@ -53,19 +53,24 @@ public class FastaParser {
     
     public List<FastaRecord> parse(Reader reader) {
         requireNonNull(reader);
+        var result = new ArrayList<FastaRecord>();
         try (var bufferedReader = new BufferedReader(reader)) {
-            
-            var line = bufferedReader.readLine();
-            if (line == null) {
-                return emptyList();
+            FastaRecordBuilder builder = null;
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.startsWith(">")) {
+                    if (builder != null) {
+                        result.add(builder.build());
+                    }
+                    builder = new FastaRecordBuilder(line);
+                } else {
+                    builder.addSubSequence(line);
+                }
             }
-            var builder = new FastaRecordBuilder(line);
-            line = bufferedReader.readLine();
-            while (line != null) {
-                builder.addSubSequence(line);
-                line = bufferedReader.readLine();
+            if (builder != null) {
+                result.add(builder.build());
             }
-            return List.of(builder.build());
+            return result;
         } catch (IOException ex) {
             throw new IORuntimeException(ex);
         }
